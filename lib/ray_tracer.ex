@@ -1,4 +1,6 @@
 defmodule RayTracer do
+  require Logger
+
   @image_width 256
   @image_height 256
 
@@ -18,6 +20,7 @@ defmodule RayTracer do
   end
 
   def outer_loop(data, i, j) do
+    IO.puts(:stderr, "Scanlines remaining: #{@image_height - j}/#{@image_height}")
     data = inner_loop(data, i, j)
     outer_loop(data, i, j + 1)
   end
