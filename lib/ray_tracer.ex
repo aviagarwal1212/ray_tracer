@@ -1,6 +1,4 @@
 defmodule RayTracer do
-  require Logger
-
   @image_width 256
   @image_height 256
 
