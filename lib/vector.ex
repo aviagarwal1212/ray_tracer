@@ -1,17 +1,25 @@
 defmodule Vector do
   @moduledoc """
-  Vector module for working with vec3 (3-Vectors)
+  Vector module for working with vec3
   """
 
   defstruct x: 0, y: 0, z: 0
 
+  @doc """
+  creates a new %Vector{} struct with default values
+  """
   def new() do
     %Vector{}
   end
 
+  @doc """
+  creates a new %Vector{} struct with specified values of x, y and z
+  """
   def new(x, y, z) do
     %Vector{x: x, y: y, z: z}
   end
+
+  # vector utility functions
 
   def neg(%Vector{x: x, y: y, z: z} = _vector) do
     new(-x, -y, -z)
