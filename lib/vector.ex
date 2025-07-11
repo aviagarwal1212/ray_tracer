@@ -6,46 +6,46 @@ defmodule Vector do
   defstruct x: 0, y: 0, z: 0
 
   def new() do
-    %__MODULE__{}
+    %Vector{}
   end
 
   def new(x, y, z) do
-    %__MODULE__{x: x, y: y, z: z}
+    %Vector{x: x, y: y, z: z}
   end
 
-  def neg(%__MODULE__{x: x, y: y, z: z} = _vector) do
+  def neg(%Vector{x: x, y: y, z: z} = _vector) do
     new(-x, -y, -z)
   end
 
-  def add(%__MODULE__{} = left, %__MODULE__{} = right) do
+  def add(%Vector{} = left, %Vector{} = right) do
     new(left.x + right.x, left.y + right.y, left.z + right.z)
   end
 
-  def sub(%__MODULE__{} = left, %__MODULE__{} = right) do
+  def sub(%Vector{} = left, %Vector{} = right) do
     add(left, neg(right))
   end
 
-  def mul(%__MODULE__{} = vector, scalar) when is_number(scalar) do
+  def mul(%Vector{} = vector, scalar) when is_number(scalar) do
     new(vector.x * scalar, vector.y * scalar, vector.z * scalar)
   end
 
-  def mul(scalar, %__MODULE__{} = vector) when is_number(scalar) do
+  def mul(scalar, %Vector{} = vector) when is_number(scalar) do
     mul(vector, scalar)
   end
 
-  def mul(%__MODULE__{} = left, %__MODULE__{} = right) do
+  def mul(%Vector{} = left, %Vector{} = right) do
     new(left.x * right.x, left.y * right.y, left.z * right.z)
   end
 
-  def div(%__MODULE__{} = vector, scalar) do
+  def div(%Vector{} = vector, scalar) do
     mul(vector, 1 / scalar)
   end
 
-  def dot(%__MODULE__{} = left, %__MODULE__{} = right) do
+  def dot(%Vector{} = left, %Vector{} = right) do
     left.x * right.x + left.y * right.y + left.z * right.z
   end
 
-  def cross(%__MODULE__{} = left, %__MODULE__{} = right) do
+  def cross(%Vector{} = left, %Vector{} = right) do
     new(
       left.y * right.z - left.z * right.y,
       left.z * right.x - left.x * right.z,
@@ -53,17 +53,17 @@ defmodule Vector do
     )
   end
 
-  def length(%__MODULE__{x: x, y: y, z: z} = _vector) do
+  def length(%Vector{x: x, y: y, z: z} = _vector) do
     :math.sqrt(x * x + y * y + z * z)
   end
 
-  def unit_vector(%__MODULE__{} = vector) do
-    __MODULE__.div(vector, __MODULE__.length(vector))
+  def unit_vector(%Vector{} = vector) do
+    Vector.div(vector, Vector.length(vector))
   end
 
-  defimpl String.Chars, for: __MODULE__ do
-    def to_string(vector) do
-      "#{vector.x} #{vector.y} #{vector.z}"
+  defimpl String.Chars, for: Vector do
+    def to_string(%Vector{x: x, y: y, z: z}) do
+      "#{trunc(x)} #{trunc(y)} #{trunc(z)}"
     end
   end
 end
