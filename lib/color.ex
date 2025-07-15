@@ -7,9 +7,9 @@ defmodule Color do
   utility function that writes a single pixel's color out to standard output stream
   """
   def write_color(%Vector{x: x, y: y, z: z}, device \\ :stdio) do
-    [rbyte, gbyte, bbyte] = [x, y, z] |> Enum.map(&to_byte_range/1)
+    [r_byte, g_byte, b_byte] = [x, y, z] |> Enum.map(&to_byte_range/1)
 
-    IO.puts(device, "#{rbyte} #{gbyte} #{bbyte}")
+    IO.puts(device, "#{r_byte} #{g_byte} #{b_byte}")
   end
 
   # translates [0, 1] component values to byte range [0, 255]
