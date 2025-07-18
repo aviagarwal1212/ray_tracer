@@ -78,8 +78,12 @@ defmodule RayTracer do
     unit_direction = Vector.unit_vector(ray.dir)
     alpha = 0.5 * (unit_direction.y + 1.0)
 
-    Vector.mul(Vector.new(1.0, 1.0, 1.0), 1 - alpha)
-    |> Vector.add(Vector.mul(Vector.new(0.5, 0.7, 1.0), alpha))
+    # Vector.mul(Vector.new(1.0, 1.0, 1.0), 1 - alpha)
+    # |> Vector.add(Vector.mul(Vector.new(0.5, 0.7, 1.0), alpha))
+
+    Vector.new(1.0, 1.0, 1.0)
+    |> Vector.mul(1 - alpha)
+    |> Vector.add(Vector.new(0.5, 0.7, 1.0) |> Vector.mul(alpha))
   end
 
   defp image_height() do
