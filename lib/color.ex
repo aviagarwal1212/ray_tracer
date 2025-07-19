@@ -12,6 +12,14 @@ defmodule Color do
     "#{r_byte} #{g_byte} #{b_byte}\n"
   end
 
-  # translates [0, 1] component values to byte range [0, 255]
+  # Converts a color component value from [0, 1] range to byte range [0, 255].
+  #
+  # Uses 255.999 instead of 256 to ensure that a value of exactly 1.0
+  # maps to 255 rather than 256 (which would overflow the byte range).
+  #
+  # Parameters:
+  # - component_value: A float between 0.0 and 1.0 representing a color component
+  #
+  # Returns: An integer between 0 and 255 suitable for PPM format output
   defp to_byte_range(component_value), do: trunc(255.999 * component_value)
 end
