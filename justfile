@@ -6,3 +6,6 @@ imperative_run:
 
 run:
     mix compile; just functional_run
+
+benchmark_render:
+    hyperfine --warmup 3 --show-output "just imperative_run" "just functional_run"
