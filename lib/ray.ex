@@ -10,4 +10,13 @@ defmodule Ray do
     |> Vector.mul(ray_parameter)
     |> Vector.add(origin)
   end
+
+  def color(%Ray{dir: dir}) do
+    %Vector{y: y} = Vector.unit_vector(dir)
+    alpha = 0.5 * (y + 1.0)
+
+    Vector.new(1.0, 1.0, 1.0)
+    |> Vector.mul(1 - alpha)
+    |> Vector.add(Vector.new(0.5, 0.7, 1.0) |> Vector.mul(alpha))
+  end
 end
