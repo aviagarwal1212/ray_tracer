@@ -4,14 +4,25 @@ defmodule RayTracer do
   @aspect_ratio 16.0 / 9.0
   @image_width 400
 
-  def run() do
+  def imperative_run() do
     image = get_image()
 
     new_camera(image)
     |> add_viewport()
     |> add_pixel_delta()
     |> add_origin_pixel()
-    |> render()
+    |> imperative_render()
+  end
+
+  def functional_run() do
+    image = get_image()
+
+    new_camera(image)
+    |> add_viewport()
+    |> add_pixel_delta()
+    |> add_origin_pixel()
+    |> functional_render()
+    |> IO.puts()
   end
 
   defp get_image() do

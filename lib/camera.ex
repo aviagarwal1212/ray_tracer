@@ -55,7 +55,7 @@ defmodule Camera do
     %{camera | origin_pixel: origin_pixel}
   end
 
-  def render(%Camera{image: image} = camera) do
+  def imperative_render(%Camera{image: image} = camera) do
     header =
       """
       P3
@@ -72,10 +72,46 @@ defmodule Camera do
       for i <- 0..(image.width - 1) do
         pixel_color(camera, i, j)
         |> Color.write_color()
+        |> IO.puts()
       end
     end
 
     IO.puts(:stderr, "Render complete!")
+  end
+
+  def functional_render(%Camera{image: image} = camera) do
+    header =
+      """
+      P3
+      #{image.width} #{image.height}
+      255
+      """
+
+    IO.puts(:stderr, "Starting render")
+
+    data =
+      0..(image.height - 1)
+      |> Stream.map(fn j ->
+        IO.puts(:stderr, "Scanlines remaining: #{image.height - j}/#{image.height}")
+
+        row_data =
+          0..(image.width - 1)
+          |> Stream.map(fn i ->
+            pixel_color(camera, i, j)
+            |> Color.write_color()
+          end)
+          |> Enum.to_list()
+          |> Enum.join()
+
+        row_data
+      end)
+      |> Enum.to_list()
+      |> Enum.join()
+
+    data = header <> data
+
+    IO.puts(:stderr, "Render complete!")
+    data
   end
 
   defp pixel_color(%Camera{origin_pixel: origin, pixel_delta: pixel_delta, center: center}, i, j) do
