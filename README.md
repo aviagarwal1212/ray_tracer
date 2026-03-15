@@ -1,21 +1,24 @@
 # RayTracer
 
-**TODO: Add description**
+A ray tracer written in Elixir, following [_Ray Tracing in One Weekend_](https://raytracing.github.io/). Renders scenes to PPM image files.
 
-## Installation
+## Usage
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `ray_tracer` to your list of dependencies in `mix.exs`:
+Tasks are managed with [mise](https://mise.jdx.dev/).
 
-```elixir
-def deps do
-  [
-    {:ray_tracer, "~> 0.1.0"}
-  ]
-end
+```bash
+mise run functional_run    # render using Stream.map, outputs image.ppm
+mise run imperative_run    # render using for loops, outputs new_image.ppm
+mise run run               # compile then functional_run
+mise run benchmark_render  # benchmark both render strategies with hyperfine
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/ray_tracer>.
+## Architecture
 
+| Module      | Responsibility                                      |
+|-------------|-----------------------------------------------------|
+| `Vector`    | 3D vector math (add, dot, cross, normalize, etc.)   |
+| `Ray`       | Ray representation, point evaluation, and coloring  |
+| `Color`     | Converts float RGB vectors to PPM byte format       |
+| `Camera`    | Viewport setup and rendering pipeline               |
+| `RayTracer` | Entry point, image configuration                    |

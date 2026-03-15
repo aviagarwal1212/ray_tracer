@@ -21,3 +21,4 @@ ray_tracer-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+/new_image.ppm
