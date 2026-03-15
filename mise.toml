@@ -1,0 +1,11 @@
+[tasks.functional_run]
+run = "mix run -e 'RayTracer.functional_run()' > image.ppm"
+
+[tasks.imperative_run]
+run = "mix run -e 'RayTracer.imperative_run()' > new_image.ppm"
+
+[tasks.run]
+run = "mix compile && mise run functional_run"
+
+[tasks.benchmark_render]
+run = "hyperfine --warmup 3 --show-output 'mise run imperative_run' 'mise run functional_run'"
