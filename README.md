@@ -9,8 +9,9 @@ Tasks are managed with [mise](https://mise.jdx.dev/).
 ```bash
 mise run functional_run    # render using Stream.map, outputs image.ppm
 mise run imperative_run    # render using for loops, outputs new_image.ppm
+mise run flow_run          # render using Flow (parallel across all cores), outputs flow_image.ppm
 mise run run               # compile then functional_run
-mise run benchmark_render  # benchmark both render strategies with hyperfine
+mise run benchmark_render  # benchmark all three render strategies with hyperfine
 ```
 
 ## Architecture

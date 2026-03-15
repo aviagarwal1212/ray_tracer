@@ -186,6 +186,50 @@ defmodule Camera do
     data
   end
 
+  @doc """
+  Renders the image using Flow for parallel computation across all cores.
+
+  Uses Flow.from_enumerable and Flow.map to distribute row computation across
+  available cores, then assembles the results in order.
+
+  ## Parameters
+  - camera: A fully configured Camera struct
+
+  ## Returns
+  A string containing the complete PPM format image data
+  """
+  def flow_render(%Camera{image: image} = camera) do
+    header =
+      """
+      P3
+      #{image.width} #{image.height}
+      255
+      """
+
+    IO.puts(:stderr, "Starting render")
+
+    data =
+      0..(image.height - 1)
+      |> Flow.from_enumerable()
+      |> Flow.map(fn j ->
+        row_data =
+          0..(image.width - 1)
+          |> Stream.map(fn i ->
+            pixel_color(camera, i, j)
+            |> Color.write_color()
+          end)
+          |> Enum.to_list()
+          |> Enum.join()
+
+        {j, row_data}
+      end)
+      |> Enum.sort_by(fn {j, _} -> j end)
+      |> Enum.map_join(fn {_, row_data} -> row_data end)
+
+    IO.puts(:stderr, "Render complete!")
+    header <> data
+  end
+
   # Calculates the color for a specific pixel in the image.
   #
   # Computes the pixel's center position in world space, creates a ray from the camera
