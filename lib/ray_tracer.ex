@@ -76,8 +76,7 @@ defmodule RayTracer do
   #
   # Returns: A map containing :width and :height keys with the calculated image dimensions
   defp get_image() do
-    unadjusted_image_height = trunc(@image_width / @aspect_ratio)
-    image_height = if unadjusted_image_height < 1, do: 1, else: unadjusted_image_height
+    image_height = trunc(@image_width / @aspect_ratio) |> max(1)
 
     %{width: @image_width, height: image_height}
   end
